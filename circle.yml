@@ -1,0 +1,13 @@
+machine:
+  services:
+    - docker
+
+dependencies:
+  override:
+    - docker build -t dakue/tmate-static .
+
+test:
+  override:
+    - mkdir -p target
+    - docker run -it -v $(pwd)/target:/target dakue/tmate-static
+    - test -f target/tmate && cp target/tmate $CIRCLE_ARTIFACTS
